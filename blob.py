@@ -2,8 +2,8 @@ import pygame, random, math, time
 from PIL import Image, ImageFilter, ImageEnhance
 pygame.init()
 
-width=500                 #화면 가로
-height=500                #화면 세로
+width=1000                 #화면 가로
+height=1000                #화면 세로
 screen = pygame.display.set_mode([width, height])
 clock=pygame.time.Clock()
 pygame.display.set_caption('Growth - I_Love_Python')
@@ -11,15 +11,17 @@ programIcon = pygame.image.load('icon.jfif')
 pygame.display.set_icon(programIcon)
 
 speed=4                  #이속
-evap=1.5                   #증발속도
-diff=2                   #확산속도
+evap=2                   #증발속도
+diff=1                   #확산속도
 c=[0, 255, 255]         #기본색
 hc=[255, 255, 255]        #하이라이트 컬러            
-r=10                      #센서 반지름
-rs=0                      #랜덤 강도
+r=4                      #센서 반지름
+rs=-1                      #랜덤 강도
 highlight=False            #하이라이팅 여부
-count=1000                 #개수
+count=3000                 #개수
 fps=360                   #fps
+spn="corner"              #스폰 타입(circle, center, square)
+sr=100                    #스폰 반지름
 
 image_mode="RGBA"
 size=(width, height)
@@ -27,13 +29,24 @@ size=(width, height)
 class agent:
     def __init__(self):
         self.angle=random.randint(0, 360)
-        '''
-        self.x=random.randint(100, 200)
-        self.y=random.randint(100, 200)
-        '''
-        self.x=width/2
-        self.y=height/2
         
+        if spn=="circle":
+            a=random.randint(0, 360)
+            self.x=width/2+math.cos(a*math.pi/180)*random.randint(1, sr)
+            self.y=height/2+math.sin(a*math.pi/180)*random.randint(1, sr)
+            self.angle=180+a
+        elif spn=="center":
+            self.x=width/2
+            self.y=height/2
+        elif spn=="square":
+            self.x=width/2+random.randint(-1*sr, sr)
+            self.y=height/2+random.randint(-1*sr, sr)
+        elif spn=="random":
+            self.x=random.randint(r, width-r)
+            self.y=random.randint(r, height-r)
+        elif spn=="corner":
+            self.x=random.randint(0, 1)*(width-2*r)+r
+            self.y=random.randint(0, 1)*(height-2*r)+r
         self.x1=self.x
         self.y1=self.y
 
@@ -73,7 +86,7 @@ class agent:
             sensed[a]=-1
             sensed[b]=0
             sensed[c]=1
-            self.angle+=sensed[sorted(list(sensed.keys()), reverse=True)[0]]*60+random.randint(-100, 100)/100*pow(2, rs)
+            self.angle+=sensed[sorted(list(sensed.keys()), reverse=True)[0]]*30+random.randint(-100, 100)/100*pow(2, rs)
         else:
             self.angle=random.randint(0, 360)
 
@@ -84,7 +97,7 @@ for k in range(count):
 if highlight:
     v=agent()
     i.pop()
-time.sleep(5)
+#time.sleep(5)
 
 while True:
     clock.tick(fps)
