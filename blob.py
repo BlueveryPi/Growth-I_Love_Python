@@ -1,4 +1,4 @@
-import pygame, random, math
+import pygame, random, math, time
 from PIL import Image, ImageFilter, ImageEnhance
 pygame.init()
 
@@ -10,15 +10,15 @@ pygame.display.set_caption('Growth - I_Love_Python')
 programIcon = pygame.image.load('icon.jfif')
 pygame.display.set_icon(programIcon)
 
-speed=3                  #이속
-evap=2                   #증발속도
-diff=1.7                   #확산속도
+speed=4                  #이속
+evap=1.5                   #증발속도
+diff=2                   #확산속도
 c=[0, 255, 255]         #기본색
 hc=[255, 255, 255]        #하이라이트 컬러            
 r=10                      #센서 반지름
-rs=1                      #랜덤 강도
+rs=0                      #랜덤 강도
 highlight=False            #하이라이팅 여부
-count=500                 #개수
+count=1000                 #개수
 fps=360                   #fps
 
 image_mode="RGBA"
@@ -27,13 +27,13 @@ size=(width, height)
 class agent:
     def __init__(self):
         self.angle=random.randint(0, 360)
-        
+        '''
         self.x=random.randint(100, 200)
         self.y=random.randint(100, 200)
         '''
         self.x=width/2
         self.y=height/2
-        '''
+        
         self.x1=self.x
         self.y1=self.y
 
@@ -84,6 +84,7 @@ for k in range(count):
 if highlight:
     v=agent()
     i.pop()
+time.sleep(5)
 
 while True:
     clock.tick(fps)
