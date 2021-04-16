@@ -20,7 +20,7 @@ rs=-1                      #랜덤 강도
 highlight=False            #하이라이팅 여부
 count=3000                 #개수
 fps=360                   #fps
-spn="corner"              #스폰 타입(circle, center, square)
+spn="corner"              #스폰 타입(circle, center, square, random, corner)
 sr=100                    #스폰 반지름
 
 image_mode="RGBA"
